@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="js/stomp.js"></script>
+    <script src="js/sockjs.js"></script>
+    <script>
+        var span = null;
+        var socket = new SockJS('/socket');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('init ...');
+
+            //
+            stompClient.subscribe('/topic/notice', function (frame) {
+                span = document.createElement('span');
+                span.innerHTML = frame.body;
+                document.body.appendChild(span);
+            });
+        });
+
+        var sayHi = function(){
+            stompClient.send("/app/message",{},"hi");
+        }
+
+    </script>
+</head>
+<body>
+<a href="javascript:sayHi()">say hi</a><br/>
+
+</body>
+</html>
