@@ -42,8 +42,6 @@ public class WebSocketTest {
             public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
                 super.afterConnected(session, connectedHeaders);
 
-                session.send("/app/message","hi");
-
                 session.subscribe("/topic/notice",new StompFrameHandler() {
                     @Override
                     public Type getPayloadType(StompHeaders headers) {
@@ -57,6 +55,8 @@ public class WebSocketTest {
                         System.out.println(payload);
                     }
                 });
+
+                session.send("/app/message","hi");
             }
         });
 
