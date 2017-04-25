@@ -30,10 +30,11 @@ public class WebSocketTest {
         transports.add(new RestTemplateXhrTransport());
 
         SockJsClient sockJsClient = new SockJsClient(transports);
-        sockJsClient.doHandshake(new MyWebSocketHandler(), url);// 握手
+//        sockJsClient.doHandshake(new MyWebSocketHandler(), url);// 握手
 
         WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
         stompClient.setMessageConverter(new StringMessageConverter());
+        stompClient.setDefaultHeartbeat(new long[]{0, 0});
         // stompClient.setTaskScheduler(taskScheduler); // for heartbeats
 
         stompClient.connect(url, new StompSessionHandlerAdapter() {
@@ -59,7 +60,7 @@ public class WebSocketTest {
             }
         });
 
-        Thread.sleep(10000);
+        Thread.sleep(Long.MAX_VALUE);
 
     }
 }
